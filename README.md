@@ -29,7 +29,7 @@ FROM movies;
 ### Lesson 2: Queries with constraints (Pt.1)
 
 **ANSWERS:**
-```
+```sql
 SELECT * 
 FROM movies
 WHERE id = 6;
@@ -68,7 +68,7 @@ Here are some string comparison and pattern matching operators.
 |`NOT IN (…)` | String does not exist in a list | `col_name NOT IN ("D", "E", "F")`|
 
 **ANSWERS:**
-```
+```sql
 SELECT *
 FROM movies
 WHERE title LIKE "%Toy Story%";
@@ -93,7 +93,7 @@ WHERE title LIKE "WALL-%";
 
 Even though the data in a database may be unique, the results of any particular query may not be – take our Movies table for example, many different movies can be released the same year. In such cases, SQL provides a convenient way to discard rows that have any duplicate column value by using the DISTINCT keyword.
 
-```
+```sql
 SELECT DISTINCT column, another_column, …
 FROM mytable
 WHERE condition(s);
@@ -101,7 +101,7 @@ WHERE condition(s);
 
 SQL provides a way to sort your results by a given column in ascending or descending order using the ORDER BY clause.
 
-```
+```sql
 SELECT column, another_column, …
 FROM mytable
 WHERE condition(s)
@@ -110,7 +110,7 @@ ORDER BY column ASC/DESC;
 
 The LIMIT will reduce the number of rows to return, and the optional OFFSET will specify where to begin counting the number rows from.
 
-```
+```sql
 SELECT column, another_column, …
 FROM mytable
 WHERE condition(s)
@@ -119,7 +119,7 @@ LIMIT num_limit OFFSET num_offset;
 ```
 
 **ANSWERS**
-```
+```sql
 SELECT DISTINCT director 
 FROM movies
 ORDER BY director ASC;
@@ -146,7 +146,7 @@ OFFSET 5;
 
 ### LESSON 5: SQL Review: Simple SELECT queries
 
-```
+```sql
 SELECT country, population 
 FROM north_american_cities
 WHERE country = "Canada";
@@ -189,7 +189,7 @@ Entity data in the real world is often broken down into pieces and stored across
 
 The INNER JOIN is a process that matches rows from the first table and the second table which have the same key (as defined by the ON constraint) to create a result row with the combined columns from both tables. After the tables are joined, the other clauses we learned previously are then applied.
 
-```
+```sql
 SELECT column, another_table_column, …
 FROM mytable
 INNER JOIN another_table
@@ -200,7 +200,7 @@ LIMIT num_limit OFFSET num_offset;
 ```
 
 **ANSWERS:**
-```
+```sql
 SELECT title, domestic_sales, international_sales
 FROM movies
 INNER JOIN boxoffice
@@ -225,7 +225,7 @@ ORDER BY rating DESC;
 
 If the two tables have asymmetric data, which can easily happen when data is entered in different stages, then we would have to use a LEFT JOIN, RIGHT JOIN or FULL JOIN instead to ensure that the data you need is not left out of the results.
 
-```
+```sql
 SELECT column, another_column, …
 FROM mytable
 INNER/LEFT/RIGHT/FULL JOIN another_table 
@@ -239,7 +239,7 @@ Note that the OUTER keyword is optional (LEFT OUTER JOIN === LEFT JOIN).
 
 
 **ANSWERS:**
-```
+```sql
 SELECT DISTINCT building_name
 FROM buildings
 LEFT JOIN employees
@@ -260,7 +260,7 @@ LEFT JOIN employees
 ### LESSON 8: A short note on NULLs
 
 **ANSWERS:**
-```
+```sql
 SELECT *
 FROM employees
 LEFT JOIN buildings
@@ -278,7 +278,7 @@ WHERE role IS NULL;
 
 An example of a query with expressions (using basic mathematical/string functions to transform values when the query is executed).
 
-```
+```sql
 SELECT particle_speed / 2.0 AS half_particle_speed
 FROM physics_data
 WHERE ABS(particle_position) * 10.0 > 500;
@@ -286,7 +286,7 @@ WHERE ABS(particle_position) * 10.0 > 500;
 
 or
 
-```
+```sql
 SELECT column AS better_column_name, …
 FROM a_long_widgets_table_name AS mywidgets
 INNER JOIN widget_sales
@@ -294,7 +294,7 @@ INNER JOIN widget_sales
 ```
 
 **ANSWERS:**
-```
+```sql
 SELECT
 	title,
 	(domestic_sales + international_sales)/1000000 AS sales
@@ -321,13 +321,12 @@ ORDER BY year ASC;
 
 ### LESSON 10: Queries with aggregates (Pt.1)
 
-```
+```sql
 SELECT AGG_FUNC(column_or_expression) AS aggregate_description, …
 FROM mytable
 WHERE constraint_expression
 GROUP BY column;
 ```
-
 
 |Function | Description |
 | :---- | :----: |
@@ -339,7 +338,7 @@ GROUP BY column;
 
 
 **ANSWERS:**
-```
+```sql
 SELECT MAX(years_employed) as longest_years
 FROM employees;
 
@@ -359,15 +358,16 @@ GROUP BY building;
 ```
 
 ### LESSON 11: Queries with aggregates (Pt.2)
-```
+```sql
 SELECT group_by_column, AGG_FUNC(column_expression) AS aggregate_result_alias, …
 FROM mytable
 WHERE condition
 GROUP BY column
 HAVING group_condition;
 ```
+
 **ANSWERS:**
-```
+```sql
 SELECT COUNT(role)
 FROM employees
 WHERE role = 'Artist';
@@ -399,7 +399,7 @@ The order of execution of different parts of a query is:
 8. `LIMIT` and `OFFSET`
 
 **ANSWERS:**
-```
+```sql
 SELECT
 	director,
 	COUNT(*)
@@ -418,7 +418,7 @@ GROUP BY director;
 
 ### LESSON 13: Inserting rows
 
-```
+```sql
 INSERT INTO mytable
 (column, another_column, …)
 VALUES (value_or_expr, another_value_or_expr, …),
@@ -427,7 +427,7 @@ VALUES (value_or_expr, another_value_or_expr, …),
 ```
 
 **ANSWERS:**
-```
+```sql
 INSERT INTO movies
     (title, director, year, length_minutes)
 VALUES
@@ -442,7 +442,7 @@ VALUES
 
 ### LESSON 14: Updating rows
 
-```
+```sql
 UPDATE mytable
 SET column = value_or_expr, 
     other_column = another_value_or_expr, 
@@ -451,7 +451,7 @@ WHERE condition;
 ```
 
 **ANSWERS:**
-```
+```sql
 UPDATE movies
 SET director = "John Lasseter"
 WHERE title = "A Bug's Life";
@@ -470,13 +470,13 @@ WHERE id = (
 
 ### LESSON 15: Deleting rows
 
-```
+```sql
 DELETE FROM mytable
 WHERE condition;
 ```
 
 **ANSWERS:**
-```
+```sql
 DELETE FROM movies
 WHERE year < 2005;
 
@@ -487,7 +487,7 @@ WHERE director = 'Andrew Stanton';
 
 ### LESSON 16: Creating tables
 
-```
+```sql
 CREATE TABLE IF NOT EXISTS mytable (
     column DataType TableConstraint DEFAULT default_value,
     another_column DataType TableConstraint DEFAULT default_value,
@@ -514,7 +514,7 @@ CREATE TABLE IF NOT EXISTS mytable (
 
 
 **ANSWERS:**
-```
+```sql
 CREATE TABLE IF NOT EXISTS Database (
     Name TEXT,
     Version FLOAT,
@@ -523,7 +523,7 @@ CREATE TABLE IF NOT EXISTS Database (
 ```
 
 ### LESSON 17: Altering tables
-```
+```sql
 ALTER TABLE mytable
 ADD column DataType OptionalTableConstraint 
     DEFAULT default_value;
@@ -536,7 +536,7 @@ RENAME TO new_table_name;
 ```
 
 **ANSWERS:**
-```
+```sql
 ALTER TABLE movies
 ADD aspect_ratio FLOAT;
 
@@ -549,7 +549,7 @@ ADD language TEXT
 ### LESSON 18: Dropping tables
 
 **ANSWERS**:
-```
+```sql
 DROP TABLE IF EXISTS mytable;
 
 
