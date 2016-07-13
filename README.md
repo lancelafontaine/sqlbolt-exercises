@@ -1,6 +1,6 @@
 # Introduction to SQL Exercises
 
-Exercises completed at http://sqlbolt.com/ between July 6th and 8th 2016.
+Exercises completed at http://sqlbolt.com/ between July 6th and 12th 2016.
 
 ### Lesson 1: SELECT queries 101
 
@@ -418,9 +418,72 @@ GROUP BY director;
 
 ### LESSON 13: Inserting rows
 
+```
+INSERT INTO mytable
+(column, another_column, …)
+VALUES (value_or_expr, another_value_or_expr, …),
+      (value_or_expr_2, another_value_or_expr_2, …),
+      …;
+```
+
+**ANSWERS:**
+```
+INSERT INTO movies
+    (title, director, year, length_minutes)
+VALUES
+    ('Toy Story 4', 'Lance Lafontaine', 2984, 15);
+
+
+INSERT INTO boxoffice
+    (movie_id, rating, domestic_sales, international_sales)
+VALUES
+    (15, 8.7, 340000000, 270000000);
+```
+
 ### LESSON 14: Updating rows
 
+```
+UPDATE mytable
+SET column = value_or_expr, 
+    other_column = another_value_or_expr, 
+    …
+WHERE condition;
+```
+
+**ANSWERS:**
+```
+UPDATE movies
+SET director = "John Lasseter"
+WHERE title = "A Bug's Life";
+
+
+UPDATE movies
+SET
+    title = 'Toy Story 3',
+    director = 'Lee Unkrich'
+WHERE id = (
+    SELECT id
+    FROM movies
+    WHERE title = 'Toy Story 8'
+); 
+```
+
 ### LESSON 15: Deleting rows
+
+```
+DELETE FROM mytable
+WHERE condition;
+```
+
+**ANSWERS:**
+```
+DELETE FROM movies
+WHERE year < 2005;
+
+
+DELETE FROM movies
+WHERE director = 'Andrew Stanton';
+```
 
 ### LESSON 16: Creating tables
 
@@ -432,52 +495,63 @@ CREATE TABLE IF NOT EXISTS mytable (
 );
 ```
 
+|Common Database Data Types | Description |
+| :----: | :---- |
+|`INTEGER`<br/>`BOOLEAN` | The integer datatypes can store whole integer values like the count of a number or an age. In some implementations, the boolean value is just represented as an integer value of just 0 or 1.|
+|`FLOAT`<br/>`DOUBLE`<br/>`REAL` | The floating point datatypes can store more precise numerical data like measurements or fractional values. Different types can be used depending on the floating point precision required for that value.|
+|`CHARACTER(num_chars)`<br/>`VARCHAR(num_chars)`<br/>`TEXT` | The text based datatypes can store strings and text in all sorts of locales. The distinction between the various types generally amount to underlaying efficiency of the database when working with these columns.<br/>Both the CHARACTER and VARCHAR (variable character) types are specified with the max number of characters that they can store (longer values may be truncated), so can be more efficient to store and query with big tables.|
+|`DATE`<br/>`DATETIME` | SQL can also store date and time stamps to keep track of time series and event data. They can be tricky to work with especially when manipulating data across timezones.|
+|`BLOB` | Finally, SQL can store binary data in blobs right in the database. These values are often opaque to the database, so you usually have to store them with the right metadata to requery them.|
+
+|Common Database Table Constraints | Description |
+| :----: | :---- |
+|`PRIMARY KEY` | This means that the values in this column are unique, and each value can be used to identify a single row in this table.|
+|`AUTOINCREMENT` | For integer values, this means that the value is automatically filled in and incremented with each row insertion. Not supported in all databases.|
+|`UNIQUE` | This means that the values in this column have to be unique, so you can't insert another row with the same value in this column as another row in the table. Differs from the `PRIMARY KEY` in that it doesn't have to be a key for a row in the table.|
+|`NOT NULL` | This means that the inserted value can not be `NULL`.|
+|`CHECK (expression)` | FThis is allows you to run a more complex expression to test whether the values inserted are value. For example, you can check that values are positive, or greater than a specific size, or start with a certain prefix, etc.|
+|`FOREIGN KEY` | This is a consistency check which ensures that each value in this column corresponds to another value in a column in another table.<br/>For example, if there are two tables, one listing all Employees by ID, and another listing their payroll information, the `FOREIGN KEY` can ensure that every row in the payroll table corresponds to a valid employee in the master Employee list.|
+
+
+**ANSWERS:**
+```
+CREATE TABLE IF NOT EXISTS Database (
+    Name TEXT,
+    Version FLOAT,
+    Download_count INTEGER
+);
+```
+
 ### LESSON 17: Altering tables
+```
+ALTER TABLE mytable
+ADD column DataType OptionalTableConstraint 
+    DEFAULT default_value;
+
+ALTER TABLE mytable
+DROP column_to_be_deleted;
+
+ALTER TABLE mytable
+RENAME TO new_table_name;
+```
+
+**ANSWERS:**
+```
+ALTER TABLE movies
+ADD aspect_ratio FLOAT;
+
+
+ALTER TABLE movies
+ADD language TEXT
+    DEFAULT 'English';
+```
 
 ### LESSON 18: Dropping tables
 
+**ANSWERS**:
+```
+DROP TABLE IF EXISTS mytable;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+DROP TABLE IF EXISTS boxoffice;
+```
