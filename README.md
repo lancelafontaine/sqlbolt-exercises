@@ -5,7 +5,7 @@ Exercises completed at http://sqlbolt.com/ between July 6th and 12th 2016.
 ### Lesson 1: SELECT queries 101
 
 **ANSWERS:**
-```
+```sql
 SELECT title 
 FROM movies;
 
